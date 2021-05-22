@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os/exec"
 	"time"
 
 	obsws "github.com/christopher-dG/go-obs-websocket"
@@ -31,8 +32,9 @@ func main() {
 	http.Handle("/", fs)
 	http.HandleFunc("/obs/text", updateText)
 
-	log.Println("Listening on :4000...")
-	err := http.ListenAndServe(":4000", nil)
+	exec.Command("rundll32", "url.dll,FileProtocolHandler", "http://localhost:4445").Start()
+	log.Println("Listening on :4445...")
+	err := http.ListenAndServe(":4445", nil)
 	if err != nil {
 		log.Fatal(err)
 	}

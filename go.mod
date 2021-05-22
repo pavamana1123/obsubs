@@ -1,4 +1,4 @@
-module obsubs
+module obscribe
 
 go 1.16
 
