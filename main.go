@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os/exec"
@@ -15,8 +16,16 @@ var (
 
 func init() {
 	obsClient = obsws.Client{Host: "localhost", Port: 4444}
-	if err := obsClient.Connect(); err != nil {
-		log.Fatal("Unable to connect to OBS!")
+	err := fmt.Errorf("")
+	t := ""
+
+	for err != nil {
+		err = obsClient.Connect()
+		if err != nil {
+			log.Println("Unable to connect to OBS! Press enter to try again")
+			fmt.Scanln(&t)
+		}
+
 	}
 	obsws.SetReceiveTimeout(time.Second * 2)
 }
@@ -32,6 +41,7 @@ func main() {
 	http.Handle("/", fs)
 	http.HandleFunc("/obs/text", updateText)
 
+	log.Println("Opening UI...")
 	exec.Command("rundll32", "url.dll,FileProtocolHandler", "http://localhost:4445").Start()
 	log.Println("Listening on :4445...")
 	err := http.ListenAndServe(":4445", nil)

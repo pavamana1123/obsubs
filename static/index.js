@@ -99,14 +99,10 @@ document.getElementById("prev").addEventListener("click",()=>{
 function handleKeys(){
     document.addEventListener("keydown",(e)=>{
         switch(e.code){
-            case "ArrowDown":
-            case "Space":
             case "Enter":
             case "NumpadAdd":
                 list.move(1)
                 break
-            case "ArrowUp":
-            case "ArrowLeft":
             case "NumpadSubtract":
                 list.move(-1)
                 break;
